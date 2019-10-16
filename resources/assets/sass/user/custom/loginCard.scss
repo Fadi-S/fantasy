@@ -1,0 +1,13 @@
+.center {
+  margin: auto;
+  text-align: center;
+}
+
+.center-left {
+  text-align: left !important;
+}
+
+.sign-card {
+  @include border-radius(50px);
+  padding-bottom: 10px;
+}
