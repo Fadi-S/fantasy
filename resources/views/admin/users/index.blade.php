@@ -32,6 +32,7 @@
                                 <th>Picture</th>
                                 <th>Name</th>
                                 <th>Email</th>
+                                <th>Group</th>
                                 <th>Points</th>
                                 <th>View</th>
                                 <th>Edit</th>
@@ -43,6 +44,7 @@
                                     <td><img src="{{ $user->picture }}" width="70"></td>
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
+                                    <td>{{ $user->group->name }}</td>
                                     <td>{{ $user->points }}</td>
                                     <td><a href="{{ url("admin/users/$user->username") }}" class="btn btn-primary">View</a></td>
                                     <td>

@@ -29,9 +29,12 @@
                     <table class="table dataTable">
                         <thead>
                             <tr>
+                                <th></th>
                                 <th>Name</th>
                                 <th>Start Date</th>
                                 <th>End Date</th>
+                                <th>For Group</th>
+                                <th>Competition</th>
                                 <th>Total Questions</th>
                                 <th>View</th>
                                 <th>Edit</th>
@@ -40,9 +43,12 @@
                         <tbody>
                             @foreach($quizzes as $quiz)
                                 <tr>
+                                    <td></td>
                                     <td>{{ $quiz->name }}</td>
                                     <td>{{ $quiz->start_date->format("l, d F Y") }}</td>
                                     <td>{{ $quiz->end_date->format("l, d F Y") }}</td>
+                                    <td>{{ $quiz->competition->group->name }}</td>
+                                    <td>{{ $quiz->competition->name }}</td>
                                     <td>{{ $quiz->questions->count() }}</td>
                                     <td><a href="{{ url("admin/quizzes/$quiz->id") }}" class="btn btn-primary">View</a></td>
                                     <td>

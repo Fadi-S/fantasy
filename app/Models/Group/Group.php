@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Group extends Model
 {
-    use SoftDeletes, GroupRelationships, GroupMethods;
+    use SoftDeletes, GroupRelationships, GroupAttributes;
 
     protected $fillable = ["name", "slug"];
 

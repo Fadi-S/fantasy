@@ -4,7 +4,9 @@ namespace App\Repositories;
 
 
 use App\Http\Requests\TextRequest;
+use App\Models\Quiz\Quiz;
 use App\Models\Text\Text;
+use Carbon\Carbon;
 
 class TextRepository
 {
@@ -25,6 +27,14 @@ class TextRepository
             flash()->success("Shahed Updated Successfully");
         else
             flash()->error("Error Updating Shahed!")->important();
+    }
+
+    public function getActiveQuizzes()
+    {
+        $now = Carbon::now()->toDateString();
+        $competitions = auth("admin")->user()->competitions->where([["start", "<=", $now], ["end", ">=", $now]])->get();
+
+        return Quiz::whereIn("competition_id", $competitions->pluck("id")->toArray())->pluck("name", "id");
     }
 
     public function delete(Text $text)

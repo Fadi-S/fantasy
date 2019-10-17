@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\TextRequest;
 use App\Models\Character\Character;
-use App\Models\Quiz\Quiz;
 use App\Models\Text\Text;
 use App\Http\Controllers\Controller;
 use App\Repositories\TextRepository;
@@ -22,14 +21,16 @@ class TextsController extends Controller
     public function edit(Text $text)
     {
         $characters = Character::pluck("name", "id")->toArray();
-        $quizzes = Quiz::pluck("name", "id")->toArray();
+        $quizzes = $this->textRepo->getActiveQuizzes();
+
         return view('admin.texts.edit', compact('text', "characters", "quizzes"));
     }
 
     public function create()
     {
         $characters = Character::pluck("name", "id")->toArray();
-        $quizzes = Quiz::pluck("name", "id")->toArray();
+        $quizzes = $this->textRepo->getActiveQuizzes();
+
         return view('admin.texts.create', compact("characters", "quizzes"));
     }
 

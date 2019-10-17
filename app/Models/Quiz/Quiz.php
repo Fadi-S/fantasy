@@ -30,5 +30,5 @@ class Quiz extends Model
 
     protected $dates = ["start_date", "end_date"];
 
-    protected $fillable = ["name", "start_date", "end_date", "max_minutes"];
+    protected $fillable = ["name", "start_date", "end_date", "max_minutes", "competition_id"];
 }

@@ -4,6 +4,7 @@ namespace App\Models\User;
 
 use App\Models\AdminLog\AdminLog;
 use App\Models\Character\Character;
+use App\Models\Group\Group;
 use App\Models\Question\Question;
 use App\Models\Quiz\Quiz;
 use App\Models\Year\Year;
@@ -19,6 +20,11 @@ trait UserRelationships
     public function characters()
     {
         return $this->belongsToMany(Character::class);
+    }
+
+    public function group()
+    {
+        return $this->belongsTo(Group::class);
     }
 
     public function solvedQuizzes()

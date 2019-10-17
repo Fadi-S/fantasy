@@ -2,10 +2,11 @@
 
 namespace App\Repositories;
 
-
 use App\Http\Requests\QuizRequest;
 use App\Models\AdminLog\AdminLog;
+use App\Models\Competition\Competition;
 use App\Models\Quiz\Quiz;
+use Carbon\Carbon;
 
 class QuizRepository
 {
@@ -37,7 +38,14 @@ class QuizRepository
 
     public function getAll($paginate = 100)
     {
-        return Quiz::with("questions")->paginate($paginate);
+        return Quiz::with("questions")->orderBy("start_date", "desc")->paginate($paginate);
+    }
+
+    public function getCurrentCompetitions()
+    {
+        $now = Carbon::now()->toDateString();
+
+        return auth("admin")->user()->competitions->where([["start", "<=", $now], ["end", ">=", $now]]);
     }
 
     public function delete(Quiz $quiz)

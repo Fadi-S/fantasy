@@ -181,13 +181,28 @@ class QuizzesController extends Controller
         };
         $now = Carbon::now();
 
+        $curCompetition = $user->group->current_competition;
+        $curCompetitionId = $curCompetition->id;
+        if($curCompetition == null) $curCompetitionId = 0;
+
         return response(
             [
-                "quizzes" => Quiz::whereDoesntHave("solvers", $userClosure)->where("start_date", "<=", $now)->where("end_date", ">=", $now)->latest("start_date")->get()->toArray(),
+                "quizzes" => Quiz::where("competition_id", $curCompetitionId)
+                    ->whereDoesntHave("solvers", $userClosure)
+                    ->where("start_date", "<=", $now)
+                    ->where("end_date", ">=", $now)
+                    ->latest("start_date")->get()->toArray(),
 
-                "solved_quizzes" => Quiz::whereHas("solvers", $userClosure)->latest("start_date")->get()->toArray(),
+                "solved_quizzes" => Quiz::where("competition_id", $curCompetitionId)
+                    ->whereHas("solvers", $userClosure)
+                    ->latest("start_date")
+                    ->get()->toArray(),
 
-                "ended_quizzes" => Quiz::whereDoesntHave("solvers", $userClosure)->where("start_date", "<=", $now)->where("end_date", "<", $now)->latest("start_date")->get()->toArray(),
+                "ended_quizzes" => Quiz::where("competition_id", $curCompetitionId)
+                    ->whereDoesntHave("solvers", $userClosure)
+                    ->where("start_date", "<=", $now)
+                    ->where("end_date", "<", $now)
+                    ->latest("start_date")->get()->toArray(),
             ]
         );
     }

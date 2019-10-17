@@ -15,6 +15,10 @@
         {!! Form::label('dateRange', "Start/Deadline Date") !!}
         {!! Form::text('dateRange', old("dateRange"), ['class'=>"form-control"]) !!}
     </div>
+    <div class="form-group col-md-6">
+        {!! Form::label('competition_id', "Competition") !!}
+        {!! Form::select('competition_id', $competitions, null, ['class'=>"form-control"]) !!}
+    </div>
 </div>
 
 <div class="form-group">

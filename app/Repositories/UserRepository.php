@@ -37,10 +37,13 @@ class UserRepository
 
     public function getAll($paginate = 100)
     {
+        $admin = auth("admin")->user();
+
         return User::leftJoin('question_user', 'users.id', '=', 'question_user.user_id')
             ->selectRaw('users.*, SUM(question_user.points) AS points')
             ->groupBy('users.id')
             ->orderBy('points', 'desc')
+            ->whereIn("group_id", $admin->groups()->pluck("id")->toArray())
             ->paginate($paginate);
     }
 

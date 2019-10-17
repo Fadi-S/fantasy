@@ -15,6 +15,7 @@ class QuizzesController extends Controller
     public function __construct(QuizRepository $quizRepo)
     {
         $this->quizRepo = $quizRepo;
+
         $this->middleware("auth:admin");
     }
 
@@ -32,29 +33,36 @@ class QuizzesController extends Controller
 
     public function edit(Quiz $quiz)
     {
-        return view('admin.quizzes.edit', compact('quiz'));
+        $competitions = $this->quizRepo->getCurrentCompetitions()->pluck("name", "id");
+
+        return view('admin.quizzes.edit', compact('quiz', 'competitions'));
     }
 
     public function create()
     {
-        return view('admin.quizzes.create');
+        $competitions = $this->quizRepo->getCurrentCompetitions()->pluck("name", "id");
+
+        return view('admin.quizzes.create', compact('competitions'));
     }
 
     public function store(QuizRequest $request)
     {
         $this->quizRepo->create($request);
+
         return redirect('/admin/quizzes/create');
     }
 
     public function update(QuizRequest $request, Quiz $quiz)
     {
         $this->quizRepo->edit($request, $quiz);
+
         return redirect("/admin/quizzes/$quiz->id/edit");
     }
 
     public function destroy(Quiz $quiz)
     {
         $this->quizRepo->delete($quiz);
+
         return redirect("/admin/quizzes");
     }
 

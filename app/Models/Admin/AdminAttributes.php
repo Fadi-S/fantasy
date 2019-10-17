@@ -2,6 +2,8 @@
 
 namespace App\Models\Admin;
 
+use App\Models\Competition\Competition;
+
 trait AdminAttributes {
 
     public function setPasswordAttribute($password)
@@ -15,6 +17,18 @@ trait AdminAttributes {
             return url("images/defaultPicture.png");
         }
         return url(\Storage::url($picture));
+    }
+
+    public function getCompetitionsAttribute()
+    {
+        $groups = $this->groups;
+
+        $competitionIds = [];
+
+        foreach ($groups as $group)
+            $competitionIds = array_merge($group->competitions()->pluck("id")->toArray(), $competitionIds);
+
+        return Competition::whereIn("id", $competitionIds);
     }
 
 }
