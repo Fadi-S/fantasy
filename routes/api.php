@@ -27,6 +27,8 @@ Route::post("/login", 'User\API\Auth\LoginController@login');
 Route::post("/register", 'User\API\Auth\RegisterController@register');
 Route::post('/refresh', 'User\API\Auth\LoginController@refresh');
 
+Route::get('/years', 'User\API\ApplicationController@getYears');
+
 Route::post('password/email', 'User\API\Auth\ForgotPasswordController@sendResetLinkEmail');
 Route::post('password/reset', 'User\API\Auth\ResetPasswordController@reset');
 

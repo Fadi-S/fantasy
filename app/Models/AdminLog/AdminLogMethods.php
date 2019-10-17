@@ -51,8 +51,8 @@ trait AdminLogMethods {
             foreach($keys as $key) {
                 if(in_array($key,  $fields)) {
                     if(in_array($key, $relations)) {
-                        if($logable->$key->pluck(key($relations))->toArray() != $values[$key]) {
-                            $old[$key] = $logable->$key->pluck(key($relations))->toArray();
+                        if($logable->$key->pluck("id")->toArray() != $values[$key]) {
+                            $old[$key] = $logable->$key->pluck("id")->toArray();
                             $new[$key] = $values[$key];
                         }
                     }else{

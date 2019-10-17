@@ -5,6 +5,8 @@ namespace App\Models\Quiz;
 
 use App\Models\AdminLog\AdminLog;
 use App\Models\Character\Character;
+use App\Models\Competition\Competition;
+use App\Models\Group\Group;
 use App\Models\Question\Question;
 use App\Models\Text\Text;
 use App\Models\User\User;
@@ -20,6 +22,11 @@ trait QuizRelationships
     public function characters()
     {
         return $this->belongsToMany(Character::class, "character_user", "quiz_id", "character_id")->withPivot("captain");
+    }
+
+    public function competition()
+    {
+        return $this->belongsTo(Competition::class);
     }
 
     public function texts()

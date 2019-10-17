@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User\API\Auth;
 use App\Http\Helpers\Slug;
 use App\Http\Controllers\Controller;
 use App\Models\User\User;
+use App\Models\Year\Year;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -58,10 +59,15 @@ class RegisterController extends Controller
 
     protected function create(array $data)
     {
+        $year = Year::with("group")->where("id", $data["year_id"])->first();
+        if($year == null) $year = Year::first();
+
         return User::create([
             'name' => $data['name'],
             'username' => Slug::createSlug(User::class, ".", $data["name"], "username"),
             'email' => $data['email'],
+            'group_id' => $year->group->id,
+            'year_id' => $data["year_id"],
             'password' => $data['password'],
         ]);
     }

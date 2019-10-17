@@ -1,6 +1,6 @@
 <?php
 
-Route::prefix("admin")->group(function() {
+Route::prefix('admin')->group(function() {
     Route::get('/', 'Admin\DashboardController@index');
 
     /* Authentication */
@@ -24,6 +24,8 @@ Route::prefix("admin")->group(function() {
     Route::resource('/texts', 'Admin\TextsController')->except("show");
     Route::resource('/characters', 'Admin\CharactersController');
     Route::resource('/quizzes', 'Admin\QuizzesController');
+    Route::resource('/competitions', 'Admin\CompetitionsController');
+    Route::resource('/groups', 'Admin\GroupsController');
 });
 
 Route::get('password/reset/{token}', 'User\API\ResetPasswordController@showResetForm');

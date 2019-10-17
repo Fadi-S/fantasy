@@ -19,6 +19,7 @@ class CreateQuizzesTable extends Migration
             $table->integer("max_minutes");
             $table->timestamp("start_date")->nullable();
             $table->timestamp("end_date")->nullable();
+            $table->integer("competition_id");
             $table->softDeletes();
             $table->timestamps();
         });

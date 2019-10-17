@@ -98,6 +98,22 @@
                     </ul>
                 </li>
 
+                <li><a href="#competitions" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-trophy"></i>Competitions </a>
+                    <ul id="competitions" class="collapse list-unstyled ">
+                        <li><a class="sidebar-link" href="{{ url('admin/competitions/create') }}">Create Competition</a></li>
+                        <li><a class="sidebar-link" href="{{ url('admin/competitions') }}">All Competitions</a></li>
+
+                    </ul>
+                </li>
+
+                <li><a href="#groups" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-user-times"></i>Groups </a>
+                    <ul id="groups" class="collapse list-unstyled ">
+                        <li><a class="sidebar-link" href="{{ url('admin/groups/create') }}">Create Group</a></li>
+                        <li><a class="sidebar-link" href="{{ url('admin/groups') }}">All Groups</a></li>
+
+                    </ul>
+                </li>
+
                 <li><a class="sidebar-link" href="{{ url('/admin/activity') }}"> <i class="fa fa-history"></i>Activity Log </a></li>
 
                 <li><a class="sidebar-link" href="{{ url('/admin/reviews') }}"> <i class="fa fa-info-circle"></i>Users Reviews </a></li>

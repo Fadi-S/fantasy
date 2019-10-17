@@ -6,6 +6,7 @@ use App\Models\AdminLog\AdminLog;
 use App\Models\Character\Character;
 use App\Models\Question\Question;
 use App\Models\Quiz\Quiz;
+use App\Models\Year\Year;
 
 trait UserRelationships
 {
@@ -28,5 +29,10 @@ trait UserRelationships
     public function questions()
     {
         return $this->belongsToMany(Question::class)->withPivot('points', 'answer');
+    }
+
+    public function year()
+    {
+        return $this->belongsTo(Year::class);
     }
 }
