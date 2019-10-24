@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\UserRequest;
+use App\Models\Competition\Competition;
 use App\Models\Question\Question;
 use App\Models\User\User;
 use App\Http\Controllers\Controller;
@@ -25,8 +26,10 @@ class UsersController extends Controller
         return view('admin.users.index', compact('users'));
     }
 
-    public function show(User $user)
+    public function show($user)
     {
+        $user = $this->userRepo->getUser($user);
+
         return view('admin.users.show', compact('user'));
     }
 
@@ -74,6 +77,24 @@ class UsersController extends Controller
         $answer->pivot->save();
 
         return response(["points" => $answer->pivot->points . "/$answer->points", "total_points" => $user->points]);
+    }
+
+    public function calculatePoints()
+    {
+        $users = User::whereIn("group_id", auth("admin")->user()->groups()->pluck("id")->toArray())->get();
+
+        foreach ($users as $user)
+            $user->calculatePoints($user->group->current_competition);
+
+        return redirect()->back();
+    }
+
+    public function calculatePointsForCompetition(Competition $competition)
+    {
+        foreach ($competition->users as $user)
+            $user->calculatePoints($competition);
+
+        return redirect()->back();
     }
     
 }

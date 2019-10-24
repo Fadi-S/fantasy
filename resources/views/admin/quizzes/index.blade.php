@@ -33,6 +33,7 @@
                                 <th>Name</th>
                                 <th>Start Date</th>
                                 <th>End Date</th>
+                                <th>Time</th>
                                 <th>For Group</th>
                                 <th>Competition</th>
                                 <th>Total Questions</th>
@@ -47,6 +48,7 @@
                                     <td>{{ $quiz->name }}</td>
                                     <td>{{ $quiz->start_date->format("l, d F Y") }}</td>
                                     <td>{{ $quiz->end_date->format("l, d F Y") }}</td>
+                                    <td>{{ $quiz->max_minutes }}</td>
                                     <td>{{ $quiz->competition->group->name }}</td>
                                     <td>{{ $quiz->competition->name }}</td>
                                     <td>{{ $quiz->questions->count() }}</td>

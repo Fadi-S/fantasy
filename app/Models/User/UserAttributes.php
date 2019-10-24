@@ -2,8 +2,6 @@
 
 namespace App\Models\User;
 
-use App\Models\Competition\Competition;
-
 trait UserAttributes
 {
     public function setRefreshTokenAttribute($token)
@@ -40,9 +38,11 @@ trait UserAttributes
 
         if($curCompetition == null) return 0;
 
-        return $this->questions()->whereHas('quiz', function($query) use ($curCompetition) {
-            $query->where("competition_id", $curCompetition->id);
-        })->sum('question_user.points');
+        $competition = $this->competitions()->where("id", $curCompetition->id)->first();
+
+        if($competition != null) return $competition->pivot->points;
+
+        return 0;
     }
 
     public function getNameAttribute($name)

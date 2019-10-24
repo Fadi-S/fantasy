@@ -14,6 +14,6 @@ trait AdminRelationships
 
     public function groups()
     {
-        return $this->belongsToMany(Group::class, "admin_group", "group_id");
+        return $this->belongsToMany(Group::class, "admin_group", "admin_id", "group_id");
     }
 }

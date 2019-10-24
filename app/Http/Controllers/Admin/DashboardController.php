@@ -4,8 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Admin\Admin;
 use App\Models\Character\Character;
-use App\Models\Question\Question;
-use App\Models\Quiz\Quiz;
+use App\Models\Competition\Competition;
 use App\Models\User\User;
 use App\Http\Controllers\Controller;
 
@@ -18,10 +17,10 @@ class DashboardController extends Controller
 
     public function index()
     {
-        $usersCount = User::count();
+        $usersCount = User::whereIn("group_id", auth("admin")->user()->groups()->pluck("id"))->count();
         $charactersCount = Character::count();
-        $quizzesCount = Quiz::count();
+        $competitionsCount = Competition::whereIn("group_id", auth("admin")->user()->groups()->pluck("id"))->count();
         $adminsCount = Admin::count();
-        return view('admin.index', compact("usersCount", "charactersCount", "quizzesCount", "adminsCount"));
+        return view('admin.index', compact("usersCount", "charactersCount", "competitionsCount", "adminsCount"));
     }
 }

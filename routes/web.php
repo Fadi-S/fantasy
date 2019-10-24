@@ -9,6 +9,8 @@ Route::prefix('admin')->group(function() {
     Route::post('/logout', 'Admin\LoginController@logout');
 
     Route::post('/users/{user}/savePoints', 'Admin\UsersController@savePoints');
+    Route::get('/users/calculate/{competition}', 'Admin\UsersController@calculatePointsForCompetition');
+    Route::get('/users/calculate', 'Admin\UsersController@calculatePoints');
     Route::resource('/users', 'Admin\UsersController');
 
     Route::get('/change-password', 'Admin\AdminsController@showChangePasswordForm');

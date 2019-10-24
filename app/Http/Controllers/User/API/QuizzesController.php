@@ -130,6 +130,9 @@ class QuizzesController extends Controller
 
         $user->solvedQuizzes()->attach($quiz->id, ["started_at" => Carbon::now()]);
 
+        if(!$user->competitions()->where("competition_id", $quiz->competition_id)->exists())
+            $user->competitions()->attach($quiz->competition_id, ["points" => $user->points]);
+
         return response([
             "quiz_time" => $quiz->max_minutes,
             "questions" => $questions,

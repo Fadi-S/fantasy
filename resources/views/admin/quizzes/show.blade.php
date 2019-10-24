@@ -28,7 +28,7 @@
                 <div class="row">
                     <div>
                         <div class="info"><strong>Name:</strong> {{ $quiz->name }}</div>
-                        <div class="info"><strong>Time:</strong> {{ $quiz->max_minutes }} minutes</div>
+                        <div class="info"><strong>Time:</strong> {{ $quiz->max_minutes }} minute{{ ($quiz->max_minutes > 1) ? "s" : "" }}</div>
                         <div class="info"><strong>Start Date:</strong> {{ $quiz->start_date->format("l, d F Y") }}</div>
                         <div class="info"><strong>End Date:</strong> {{ $quiz->end_date->format("l, d F Y") }}</div>
                     </div>

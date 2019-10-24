@@ -29,6 +29,10 @@
                     <div>
                         <div class="info"><strong>Name:</strong> {{ $competition->name }}</div>
                         <div class="info"><strong>Group:</strong> {{ $competition->group->name }}</div>
+                        <div class="info"><strong>Type:</strong> {{ $competition->type->name }}</div>
+                        <div class="info"><strong>Date:</strong> {{ $competition->start->format("l, d M Y") }} - {{ $competition->end->format("l, d M Y") }}</div>
+
+                        <a class="btn btn-primary" href="{{ url("admin/users/calculate/$competition->slug") }}">Calculate Points</a>
                     </div>
                 </div>
             </div>
@@ -64,6 +68,47 @@
                                 <td><a href="{{ url("admin/quizzes/$quiz->id") }}" class="btn btn-primary">View</a></td>
                                 <td>
                                     <a href="{{ url("admin/quizzes/$quiz->id/edit") }}" class="btn btn-info">Edit</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex align-items-center">
+                <h3 class="h4">Users Table</h3>
+            </div>
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table dataTable">
+                        <thead>
+                        <tr>
+                            <th>Picture</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Group</th>
+                            <th>Points</th>
+                            <th>View</th>
+                            <th>Edit</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($competition->users as $user)
+                            <tr>
+                                <td><img alt="{{ $user->name }}'s Picture" src="{{ $user->picture }}" width="70"></td>
+                                <td>{{ $user->name }}</td>
+                                <td>{{ $user->email }}</td>
+                                <td>{{ $user->group->name }}</td>
+                                <td>{{ $user->pivot->points }}</td>
+                                <td><a href="{{ url("admin/users/$user->username") }}" class="btn btn-primary">View</a></td>
+                                <td>
+                                    <a href="{{ url("admin/users/$user->username/edit") }}" class="btn btn-info">Edit</a>
                                 </td>
                             </tr>
                         @endforeach

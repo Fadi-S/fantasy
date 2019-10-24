@@ -16,7 +16,33 @@
 
     <div class="col-12">
         <a class="btn btn-success" href="{{ url("admin/users/create") }}">Create User</a>
+        <a class="btn btn-primary mr-auto" href="{{ url("admin/users/calculate") }}">Calculate Points For Current Competition</a>
         <br><br>
+
+        <div class="row">
+            @foreach(auth("admin")->user()->groups as $group)
+                @if($group->current_competition != null)
+                    <div class="col-6">
+                        <div class="card">
+
+                            <div class="card-header d-flex align-items-center">
+                                <h3 class="h4">{{ $group->name }}</h3>
+                            </div>
+
+                            <div class="card-body">
+                                Current Competition:
+                                <a href="{{ url("admin/competitions/" . $group->current_competition->slug) }}">
+                                    {{ $group->current_competition->name }}
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                @endif
+            @endforeach
+        </div>
+
+
         <div class="card">
             <div class="card-header d-flex align-items-center">
                 <h3 class="h4">All Users Table</h3>

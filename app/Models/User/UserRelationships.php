@@ -4,6 +4,7 @@ namespace App\Models\User;
 
 use App\Models\AdminLog\AdminLog;
 use App\Models\Character\Character;
+use App\Models\Competition\Competition;
 use App\Models\Group\Group;
 use App\Models\Question\Question;
 use App\Models\Quiz\Quiz;
@@ -40,5 +41,10 @@ trait UserRelationships
     public function year()
     {
         return $this->belongsTo(Year::class);
+    }
+
+    public function competitions()
+    {
+        return $this->belongsToMany(Competition::class, 'competition_user', 'user_id', 'competition_id')->withPivot("points");
     }
 }

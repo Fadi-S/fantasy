@@ -3,7 +3,10 @@ namespace App\Repositories;
 
 use App\Http\Requests\UserRequest;
 use App\Models\AdminLog\AdminLog;
+use App\Models\Competition\Competition;
+use App\Models\Question\Question;
 use App\Models\User\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class UserRepository
@@ -39,12 +42,34 @@ class UserRepository
     {
         $admin = auth("admin")->user();
 
-        return User::leftJoin('question_user', 'users.id', '=', 'question_user.user_id')
-            ->selectRaw('users.*, SUM(question_user.points) AS points')
+        $competitionIds = [];
+        foreach ($admin->groups as $group) {
+            $competition = $group->current_competition;
+
+            if(!is_null($competition)) $competitionIds[] = $competition->id;
+        }
+
+        return User::leftJoin('competition_user', function ($join) use ($competitionIds) {
+            $join->on("users.id", "=", 'competition_user.user_id')
+                ->whereIn("competition_user.competition_id", $competitionIds);
+        })->selectRaw('users.*, competition_user.points AS points')
             ->groupBy('users.id')
             ->orderBy('points', 'desc')
-            ->whereIn("group_id", $admin->groups()->pluck("id")->toArray())
+            ->whereIn("users.group_id", $admin->groups()->pluck("id")->toArray())
             ->paginate($paginate);
+    }
+
+    public function getUser($user)
+    {
+        $user = User::where("username", $user)->first();
+
+        $curCompetition = $user->group->current_competition;
+
+        return User::where("username", $user->username)->with(["questions" => function($query) use($curCompetition) {
+            $query->whereHas("quiz", function ($query) use($curCompetition) {
+                $query->where("competition_id", $curCompetition->id);
+            });
+        }])->first();
     }
 
     public function deleteUser(Request $request, User $user)

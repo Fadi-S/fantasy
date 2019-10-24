@@ -29,7 +29,7 @@ class CompetitionRepository
             return;
         }
 
-        if ($competition->update($request->all()))
+        if ($competition->update($request->except("type_id")))
             flash()->success("Competition Updated Successfully");
         else
             flash()->error("Error Updating Competition!")->important();

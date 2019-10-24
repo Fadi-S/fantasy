@@ -15,6 +15,15 @@
         {!! Form::label('group_id', "For Group") !!}
         {!! Form::select('group_id', $groups, null, ['class'=>"form-control"]) !!}
     </div>
+
+    <div class="form-group col-md-6">
+        {!! Form::label('type_id', "Type") !!}
+        @if($create)
+            {!! Form::select('type_id', $types, null, ['class'=>"form-control"]) !!}
+        @else
+            {!! Form::select('type_id', $types, null, ['class'=>"form-control", "disabled"]) !!}
+        @endif
+    </div>
 </div>
 
 <div class="form-group">

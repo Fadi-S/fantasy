@@ -34,6 +34,7 @@ class CompetitionRequest extends FormRequest
                 "start" => "required",
                 "end" => "required",
                 "group_id" => "required|numeric|notIn:0",
+                "type_id" => "required|numeric|notIn:0",
             ];
         }else {
             return [

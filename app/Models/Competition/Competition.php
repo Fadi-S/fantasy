@@ -9,7 +9,7 @@ class Competition extends Model
 {
     use SoftDeletes, CompetitionRelationships;
 
-    protected $fillable = ["name", "slug", "start", "end", "group_id"];
+    protected $fillable = ["name", "slug", "start", "end", "group_id", "type_id"];
 
     protected $dates = ["start", "end"];
 

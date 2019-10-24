@@ -32,6 +32,7 @@
                                 <th></th>
                                 <th>Name</th>
                                 <th>For Group</th>
+                                <th>Type</th>
                                 <th>Start Date</th>
                                 <th>End Date</th>
                                 <th>View</th>
@@ -44,6 +45,7 @@
                                     <td></td>
                                     <td>{{ $competition->name }}</td>
                                     <td>{{ $competition->group->name }}</td>
+                                    <td>{{ $competition->type->name }}</td>
                                     <td>{{ $competition->start->format("l, d M Y") }}</td>
                                     <td>{{ $competition->end->format("l, d M Y") }}</td>
                                     <td><a href="{{ url("admin/competitions/$competition->slug") }}" class="btn btn-primary">View</a></td>

@@ -32,15 +32,23 @@ class QuestionsController extends Controller
 
     public function edit(Question $question)
     {
+        $competitionIds = [];
+        foreach (auth("admin")->user()->groups as $group)
+            $competitionIds[] = (!is_null($group->current_competition)) ? $group->current_competition->id : 0;
+
         $characters = Character::pluck("name", "id")->toArray();
-        $quizzes = Quiz::pluck("name", "id")->toArray();
+        $quizzes = Quiz::whereIn('competition_id', $competitionIds)->pluck("name", "id")->toArray();
         return view('admin.questions.edit', compact('question', 'characters', 'quizzes'));
     }
 
     public function create()
     {
+        $competitionIds = [];
+        foreach (auth("admin")->user()->groups as $group)
+            $competitionIds[] = (!is_null($group->current_competition)) ? $group->current_competition->id : 0;
+
         $characters = Character::pluck("name", "id")->toArray();
-        $quizzes = Quiz::pluck("name", "id")->toArray();
+        $quizzes = Quiz::whereIn('competition_id', $competitionIds)->pluck("name", "id")->toArray();
         return view('admin.questions.create', compact('characters', 'quizzes'));
     }
 

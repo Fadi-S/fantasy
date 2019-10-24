@@ -10,11 +10,11 @@ trait GroupAttributes
 
     public function getCurrentCompetitionAttribute()
     {
-        $now = Carbon::now();
+        $now = Carbon::now()->toDateString();
 
          return $this
             ->competitions()
-            ->where([["start", "<=", $now->toDateString()], ["end", ">=", $now->toDateString()]])
+            ->where([["start", "<=", $now], ["end", ">=", $now]])
             ->first();
     }
 

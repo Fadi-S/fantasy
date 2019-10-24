@@ -30,9 +30,9 @@
             <!-- Item -->
             <div class="col-xl-3 col-sm-6">
                 <div class="item d-flex align-items-center">
-                    <div class="icon bg-green"><i class="fa fa-question"></i></div>
-                    <div class="title"><span>Quizzes</span></div>
-                    <div class="number"><strong>{{ $quizzesCount }}</strong></div>
+                    <div class="icon bg-green"><i class="fa fa-trophy"></i></div>
+                    <div class="title"><span>Competitions</span></div>
+                    <div class="number"><strong>{{ $competitionsCount }}</strong></div>
                 </div>
             </div>
             <!-- Item -->

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\CompetitionRequest;
 use App\Models\Competition\Competition;
 use App\Http\Controllers\Controller;
+use App\Models\CompetitionType\CompetitionType;
 use App\Models\Group\Group;
 use App\Repositories\CompetitionRepository;
 
@@ -33,14 +34,18 @@ class CompetitionsController extends Controller
     public function edit(Competition $competition)
     {
         $groups = Group::pluck("name", "id");
-        return view('admin.competitions.edit', compact('competition', 'groups'));
+
+        $types = CompetitionType::pluck("name", "id");
+
+        return view('admin.competitions.edit', compact('competition', 'groups', 'types'));
     }
 
     public function create()
     {
         $groups = Group::pluck("name", "id");
+        $types = CompetitionType::pluck("name", "id");
 
-        return view('admin.competitions.create', compact('groups'));
+        return view('admin.competitions.create', compact('groups', 'types'));
     }
 
     public function store(CompetitionRequest $request)

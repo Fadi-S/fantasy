@@ -106,7 +106,7 @@
                     </ul>
                 </li>
 
-                <li><a href="#groups" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-user-times"></i>Groups </a>
+                <li><a href="#groups" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-paperclip"></i>Groups </a>
                     <ul id="groups" class="collapse list-unstyled ">
                         <li><a class="sidebar-link" href="{{ url('admin/groups/create') }}">Create Group</a></li>
                         <li><a class="sidebar-link" href="{{ url('admin/groups') }}">All Groups</a></li>
@@ -123,6 +123,16 @@
         <div class="content-inner">
             @yield("content")
             @include("admin.flash")
+
+            <footer class="main-footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <p>StGeorge Sporting Church &copy; 2019</p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
         </div>
     </div>
 </div>
