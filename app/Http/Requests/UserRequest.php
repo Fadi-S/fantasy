@@ -32,6 +32,7 @@ class UserRequest extends FormRequest
                 'name' => "required",
                 'username' => Rule::unique('users')->ignore($this->route("user")->id),
                 'password' => "nullable|min:6",
+                "group_id" => "required|notIn:0|numeric",
                 'email' => [
                         "required",
                         "email",
@@ -44,6 +45,7 @@ class UserRequest extends FormRequest
                 'username' => "required|unique:users",
                 'email' => "required|email|unique:users",
                 'password' => "required|min:6",
+                "group_id" => "required|notIn:0|numeric",
             ];
         }
 

@@ -33,6 +33,14 @@
                         <div class="info"><strong>Name:</strong> {{ $user->name }}</div>
                         <div class="info"><strong>Email:</strong> {{ $user->email }}</div>
                         <div class="info"><strong>Total Points:</strong> <div style="display: inline-block;" id="totalPointsPreview">{{ $user->points }}</div></div>
+                        <div class="info"><strong>Correct / Total Questions:</strong> {{ $user->totalCorrectQuestionsInCompetition($user->group->current_competition) . "/" . $user->totalQuestionsInCompetition($user->group->current_competition) }}</div>
+                        <div class="info"><strong>Percentage:</strong> <div class="progress mx-auto" style="height: 20px">
+                                <div class="progress-bar progress-bar-striped bg-success" role="progressbar"
+                                     style="width: {{ $user->correctToTotalQuestionsPercentage($user->group->current_competition) }}%" aria-valuenow="{{ $user->correctToTotalQuestionsPercentage($user->group->current_competition) }}" aria-valuemin="0" aria-valuemax="100">
+                                    {{ $user->correctToTotalQuestionsPercentage($user->group->current_competition) }}%
+                                </div>
+                            </div></div>
+                        <div class="info"><strong>Created At:</strong> {{ $user->created_at->format("l, d F Y h:i a") }}</div>
                     </div>
                 </div>
             </div>
@@ -52,6 +60,7 @@
                         <tr>
                             <th>Character Picture</th>
                             <th>Character Name</th>
+                            <th>Question</th>
                             <th>Quiz</th>
                             <th>Points</th>
                             <th>Answer</th>
@@ -62,6 +71,7 @@
                             <tr>
                                 <td><img src="{{ $question->character->picture }}" width="70" height="70"></td>
                                 <td><a href="{{ url("admin/characters/" . $question->character->id) }}">{{ $question->character->name }}</a></td>
+                                <td>{{ $question->body }}</td>
                                 <td><a href="{{ url("admin/quizzes/" . $question->quiz->id) }}">{{ $question->quiz->name }}</a></td>
                                 <td id="pointsPreview{{ $question->id }}">{{ $question->pivot->points }}/{{ $question->points }}</td>
                                 <td>

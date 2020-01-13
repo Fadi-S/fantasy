@@ -43,6 +43,11 @@ trait UserRelationships
         return $this->belongsTo(Year::class);
     }
 
+    public function quizzes()
+    {
+        return $this->belongsToMany(User::class, "character_user", "user_id", "quiz_id");
+    }
+
     public function competitions()
     {
         return $this->belongsToMany(Competition::class, 'competition_user', 'user_id', 'competition_id')->withPivot("points");

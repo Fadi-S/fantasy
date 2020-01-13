@@ -19,6 +19,9 @@ class CreateCompetitionsTable extends Migration
             $table->string("slug");
             $table->integer("group_id");
             $table->integer("type_id");
+            $table->boolean("allow_late")->default(0);
+            $table->double("late_penalty")->default(1);
+            $table->boolean("show_answers")->default(1);
             $table->date("start");
             $table->date("end");
             $table->timestamps();
@@ -34,6 +37,5 @@ class CreateCompetitionsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('competitions');
-        Schema::dropIfExists('competition_group');
     }
 }

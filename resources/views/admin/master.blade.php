@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,700">
     <script src="{{ url('js/jquery.js') }}"></script>
 
+    <link rel='icon' href='{{ url('/favicon.ico') }}' type='image/x-icon'/ >
+
 </head>
 <body>
 <div class="page">
@@ -128,7 +130,7 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-sm-6">
-                            <p>StGeorge Sporting Church &copy; 2019</p>
+                            <p>StGeorge Sporting Church &copy; 2020</p>
                         </div>
                     </div>
                 </div>

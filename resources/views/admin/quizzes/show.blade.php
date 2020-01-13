@@ -10,7 +10,10 @@
     <div class="breadcrumb-holder">
         <ul class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ url('admin') }}">Home</a></li>
-            <li class="breadcrumb-item"><a href="{{ url('admin/quizzes') }}">Quizzes</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('admin/groups') }}">Groups</a></li>
+            <li class="breadcrumb-item"><a href="{{ url("admin/groups/" . $quiz->competition->group->slug) }}">{{ $quiz->competition->group->name }}</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('admin/competitions') }}">Competitions</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('admin/competitions/' . $quiz->competition->slug) }}">{{ $quiz->competition->name }}</a></li>
             <li class="breadcrumb-item active">{{ $quiz->name }}</li>
         </ul>
     </div>
@@ -29,9 +32,58 @@
                     <div>
                         <div class="info"><strong>Name:</strong> {{ $quiz->name }}</div>
                         <div class="info"><strong>Time:</strong> {{ $quiz->max_minutes }} minute{{ ($quiz->max_minutes > 1) ? "s" : "" }}</div>
-                        <div class="info"><strong>Start Date:</strong> {{ $quiz->start_date->format("l, d F Y") }}</div>
-                        <div class="info"><strong>End Date:</strong> {{ $quiz->end_date->format("l, d F Y") }}</div>
+                        <div class="info"><strong>Start Date:</strong> {{ $quiz->start_date->format("l, d F Y h:i a") }}</div>
+                        <div class="info"><strong>End Date:</strong> {{ $quiz->end_date->format("l, d F Y h:i a") }}</div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex align-items-center">
+                <h3 class="h4">Users Table</h3>
+            </div>
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table dataTable">
+                        <thead>
+                        <tr>
+                            <th>Picture</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Year</th>
+                            <th>Started At</th>
+                            <th>Finished in</th>
+                            <th>Total Points</th>
+                            <th>Quiz Points</th>
+                            <th>View</th>
+                            <th>Edit</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($quiz->solvers as $user)
+                            <tr>
+                                <td><img src="{{ $user->picture }}" width="70"></td>
+                                <td>{{ $user->name }}</td>
+                                <td>{{ $user->email }}</td>
+                                <td>{{ $user->year->name }}</td>
+                                <td>{{ \Carbon\Carbon::parse($user->pivot->started_at)->format("h:i a jS M Y") }}</td>
+                                <td>{{ ($user->pivot->ended_at) ?
+                                \Carbon\Carbon::parse($user->pivot->ended_at)->diffInMinutes(\Carbon\Carbon::parse($user->pivot->started_at)) . ' minute(s)'
+                                : "Didn't submit" }}</td>
+                                <td>{{ $user->points }}</td>
+                                <td>{{ $user->quizPoints($quiz) }}</td>
+                                <td><a href="{{ url("admin/users/$user->username") }}" class="btn btn-primary">View</a></td>
+                                <td>
+                                    <a href="{{ url("admin/users/$user->username/edit") }}" class="btn btn-info">Edit</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

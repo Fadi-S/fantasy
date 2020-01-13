@@ -1,14 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\User\Auth;
+namespace App\Http\Controllers\User\API\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class ResetPasswordController extends Controller
 {
+    use ResetsPasswords;
+
     public function __construct()
     {
         $this->middleware('guest');

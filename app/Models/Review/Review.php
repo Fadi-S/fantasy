@@ -9,4 +9,9 @@ class Review extends Model
 
     protected $fillable = ["body", "rating"];
 
+    public function getRatingAttribute($rating)
+    {
+        return round($rating, 1);
+    }
+
 }

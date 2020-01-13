@@ -10,9 +10,12 @@
     <div class="breadcrumb-holder">
         <ul class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ url('admin') }}">Home</a></li>
-            <li class="breadcrumb-item"><a href="{{ url('admin/characters') }}">Characters</a></li>
-            <li class="breadcrumb-item"><a href="{{ url('admin/characters/' . $question->character->id) }}">{{ $question->character->name }}</a></li>
-            <li class="breadcrumb-item active">Questions</li>
+            <li class="breadcrumb-item"><a href="{{ url('admin/groups') }}">Groups</a></li>
+            <li class="breadcrumb-item"><a href="{{ url("admin/groups/" . $question->quiz->competition->group->slug) }}">{{ $question->quiz->competition->group->name }}</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('admin/competitions') }}">Competitions</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('admin/competitions/' . $question->quiz->competition->slug) }}">{{ $question->quiz->competition->name }}</a></li>
+            <li class="breadcrumb-item"><a href="{{ url("admin/quizzes/" . $question->quiz->id) }}">{{ $question->quiz->name }}</a></li>
+            <li class="breadcrumb-item active">Question</li>
         </ul>
     </div>
 
@@ -38,6 +41,22 @@
             </div>
         </div>
     </div>
+
+    <div class="col-12">
+        <div class="row">
+            @foreach($question->choices as $choice)
+                <div class="col-3">
+                    <div class="card">
+                        <div class="card-header d-flex align-items-center" style="{{ ($choice->right) ? "background:green;" : "" }}">
+                            <h3 class="h4 mx-auto">{{ $choice->name }}</h3>
+                        </div>
+                    </div>
+                </div>
+
+            @endforeach
+        </div>
+    </div>
+
 
     <div class="col-12">
         <div class="card">

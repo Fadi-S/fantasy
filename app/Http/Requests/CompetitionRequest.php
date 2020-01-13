@@ -35,6 +35,7 @@ class CompetitionRequest extends FormRequest
                 "end" => "required",
                 "group_id" => "required|numeric|notIn:0",
                 "type_id" => "required|numeric|notIn:0",
+                "late_penalty" => "numeric|min:0|max:1",
             ];
         }else {
             return [
@@ -45,6 +46,7 @@ class CompetitionRequest extends FormRequest
                 "slug" => [
                     Rule::unique('competitions')->ignore($this->route("competition")->slug),
                 ],
+                "late_penalty" => "numeric|min:0|max:1",
             ];
         }
     }

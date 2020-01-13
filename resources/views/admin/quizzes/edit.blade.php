@@ -10,7 +10,10 @@
     <div class="breadcrumb-holder">
         <ul class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ url('admin') }}">Home</a></li>
-            <li class="breadcrumb-item"><a href="{{ url('admin/quizzes') }}">Quizzes</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('admin/groups') }}">Groups</a></li>
+            <li class="breadcrumb-item"><a href="{{ url("admin/groups/" . $quiz->competition->group->slug) }}">{{ $quiz->competition->group->name }}</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('admin/competitions') }}">Competitions</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('admin/competitions/' . $quiz->competition->slug) }}">{{ $quiz->competition->name }}</a></li>
             <li class="breadcrumb-item"><a href="{{ url("admin/quizzes/$quiz->id") }}">{{ $quiz->name }}</a></li>
             <li class="breadcrumb-item active">Edit</li>
         </ul>

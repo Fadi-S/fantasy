@@ -30,6 +30,6 @@ Route::prefix('admin')->group(function() {
     Route::resource('/groups', 'Admin\GroupsController');
 });
 
-Route::get('password/reset/{token}', 'User\API\ResetPasswordController@showResetForm');
-Route::post('password/reset', 'User\API\ResetPasswordController@reset');
+Route::get('password/reset/{token}', 'User\API\Auth\ResetPasswordController@showResetForm');
+Route::post('password/reset', 'User\API\Auth\ResetPasswordController@reset');
 Route::get('/support', 'User\SupportController@index');

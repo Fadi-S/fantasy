@@ -19,7 +19,8 @@ class GroupRepository
             $group->admins()->sync($request->admins);
 
             $group->years()->update(["group_id" => null]);
-            Year::whereIn("id", $request->years)->update(["group_id" => $group->id]);
+            if(count($request->year) > 0)
+                Year::whereIn("id", $request->years)->update(["group_id" => $group->id]);
 
             AdminLog::createRecord("add", $group);
             flash()->success("Group Created Successfully");
@@ -38,7 +39,8 @@ class GroupRepository
 
             $group->years()->update(["group_id" => null]);
 
-            Year::whereIn("id", $request->years)->update(["group_id" => $group->id]);
+            if(count($request->year) > 0)
+                Year::whereIn("id", $request->years)->update(["group_id" => $group->id]);
 
             flash()->success("Group Updated Successfully");
         }else

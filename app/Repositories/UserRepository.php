@@ -29,7 +29,7 @@ class UserRepository
 
             return;
         }
-        $fields = ['name', 'email', 'username'];
+        $fields = ['name', 'email', 'username', 'group_id'];
         if($request->password != '')
             $fields[] = "password";
         if ($user->update($request->only($fields)))
@@ -56,7 +56,7 @@ class UserRepository
             ->groupBy('users.id')
             ->orderBy('points', 'desc')
             ->whereIn("users.group_id", $admin->groups()->pluck("id")->toArray())
-            ->paginate($paginate);
+            ->get();
     }
 
     public function getUser($user)
@@ -67,7 +67,7 @@ class UserRepository
 
         return User::where("username", $user->username)->with(["questions" => function($query) use($curCompetition) {
             $query->whereHas("quiz", function ($query) use($curCompetition) {
-                $query->where("competition_id", $curCompetition->id);
+                $query->where("competition_id", ($curCompetition != null) ? $curCompetition->id : 0);
             });
         }])->first();
     }

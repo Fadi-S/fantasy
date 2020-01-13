@@ -6,6 +6,7 @@ use App\Http\Requests\QuizRequest;
 use App\Models\AdminLog\AdminLog;
 use App\Models\Competition\Competition;
 use App\Models\Quiz\Quiz;
+use App\Models\User\User;
 use Carbon\Carbon;
 
 class QuizRepository
@@ -38,14 +39,16 @@ class QuizRepository
 
     public function getAll($paginate = 100)
     {
-        return Quiz::with("questions")->orderBy("start_date", "desc")->paginate($paginate);
+        return Quiz::whereHas("competition", function ($query) {
+            $query->whereIn("group_id", auth("admin")->user()->groups()->pluck("id"));
+        })->with("questions")->orderBy("start_date", "desc")->paginate($paginate);
     }
 
     public function getCurrentCompetitions()
     {
         $now = Carbon::now()->toDateString();
 
-        return auth("admin")->user()->competitions->where([["start", "<=", $now], ["end", ">=", $now]]);
+        return auth("admin")->user()->competitions->where("end", ">=", $now);
     }
 
     public function delete(Quiz $quiz)

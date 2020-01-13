@@ -12,7 +12,7 @@
                 </div>
                 <div class="form-group col-md-4">
                     {!! Form::label('character_id', "Character") !!}
-                    {!! Form::select('character_id', $characters, null, ['class'=>"form-control"]) !!}
+                    {!! Form::select('character_id', $characters, null, ['class'=>"form-control", "dir" => "rtl"]) !!}
                 </div>
                 <div class="form-group col-md-4">
                     {!! Form::label('points', "Maximum Points") !!}

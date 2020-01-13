@@ -57,6 +57,7 @@ class LoginController extends Controller
                         'api_token' => $user->generateToken(),
                         'refresh_token' => $user->generateRefreshToken(),
                         'points' => $user->points,
+                        'allow_late' => ($user->group->current_competition) ? $user->group->current_competition->allow_late : "0",
                     ]
                 )
             );
@@ -71,6 +72,7 @@ class LoginController extends Controller
     {
         $refresh_token = $request->refresh_token;
         $user = $request->user('api');
+
         if($user != null) {
             if (\Hash::check($refresh_token, $user->refresh_token)) {
 
@@ -80,6 +82,7 @@ class LoginController extends Controller
                         [
                             'api_token' => $user->generateToken(),
                             'points' => $user->points,
+                            'allow_late' => ($user->group->current_competition) ? $user->group->current_competition->allow_late : "0",
                         ]
                     )
                 );

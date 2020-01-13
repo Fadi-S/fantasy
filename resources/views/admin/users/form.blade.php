@@ -15,6 +15,11 @@
         {!! Form::label('password', "Password") !!}
         {!! Form::password('password', ['class'=>"form-control", "placeholder" => "Password"]) !!}
     </div>
+
+    <div class="form-group col-md-6">
+        {!! Form::label('group_id', "Group") !!}
+        {!! Form::select('group_id', $groups, null, ['class'=>"form-control"]) !!}
+    </div>
 </div>
 
 <div class="form-group">

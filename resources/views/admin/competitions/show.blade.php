@@ -10,6 +10,8 @@
     <div class="breadcrumb-holder">
         <ul class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ url('admin') }}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('admin/groups') }}">Groups</a></li>
+            <li class="breadcrumb-item"><a href="{{ url("admin/groups/" . $competition->group->slug) }}">{{ $competition->group->name }}</a></li>
             <li class="breadcrumb-item"><a href="{{ url('admin/competitions') }}">Competitions</a></li>
             <li class="breadcrumb-item active">{{ $competition->name }}</li>
         </ul>
@@ -54,6 +56,7 @@
                             <th>Start Date</th>
                             <th>End Date</th>
                             <th>Total Questions</th>
+                            <th>Time in minutes</th>
                             <th>View</th>
                             <th>Edit</th>
                         </tr>
@@ -62,9 +65,10 @@
                         @foreach($competition->quizzes as $quiz)
                             <tr>
                                 <td>{{ $quiz->name }}</td>
-                                <td>{{ $quiz->start_date->format("l, d F Y") }}</td>
-                                <td>{{ $quiz->end_date->format("l, d F Y") }}</td>
+                                <td>{{ $quiz->start_date->format("l, d F Y h:i a") }}</td>
+                                <td>{{ $quiz->end_date->format("l, d F Y h:i a") }}</td>
                                 <td>{{ $quiz->questions->count() }}</td>
+                                <td>{{ $quiz->max_minutes }} minute{{ ($quiz->max_minutes > 1) ? "s" : "" }}</td>
                                 <td><a href="{{ url("admin/quizzes/$quiz->id") }}" class="btn btn-primary">View</a></td>
                                 <td>
                                     <a href="{{ url("admin/quizzes/$quiz->id/edit") }}" class="btn btn-info">Edit</a>
@@ -93,6 +97,7 @@
                             <th>Name</th>
                             <th>Email</th>
                             <th>Group</th>
+                            <th>Year</th>
                             <th>Points</th>
                             <th>View</th>
                             <th>Edit</th>
@@ -105,6 +110,7 @@
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->email }}</td>
                                 <td>{{ $user->group->name }}</td>
+                                <td>{{ $user->year->name }}</td>
                                 <td>{{ $user->pivot->points }}</td>
                                 <td><a href="{{ url("admin/users/$user->username") }}" class="btn btn-primary">View</a></td>
                                 <td>

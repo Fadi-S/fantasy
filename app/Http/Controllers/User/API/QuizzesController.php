@@ -9,6 +9,7 @@ use App\Models\Question\Question;
 use App\Models\Quiz\Quiz;
 use Carbon\Carbon;
 use App\Http\Controllers\Controller;
+use function foo\func;
 use Illuminate\Http\Request;
 
 class QuizzesController extends Controller
@@ -38,9 +39,12 @@ class QuizzesController extends Controller
     public function saveCaptainToUser(Quiz $quiz, Request $request)
     {
         $user = $request->user("api");
-        $character_id = $request->character_id;
 
-        $character = $quiz->characters()->where([["character_id", $character_id], ["user_id", $user->id]])->first();
+        $characters = $quiz->characters()->where("user_id", $user->id);
+
+        $characters->update(["captain" => 0]);
+
+        $character = $user->characters()->where("user_id", $user->id)->where("character_id", $request->character_id)->where("quiz_id", $quiz->id)->first();
 
         $character->pivot->captain = 1;
 
@@ -59,12 +63,19 @@ class QuizzesController extends Controller
 
         $answers = json_decode($request->answers, true);
 
+        $is_late = Carbon::parse($quizUser->pivot->started_at)->greaterThan($quiz->end_date);
+        $late_penalty = $quiz->competition->late_penalty;
+
         foreach($answers as $question_id => $answer) {
             $question = Question::find($question_id);
             if($question != null ) {
                 $choice = $question->choices()->where("id", $answer["answer"])->first();
                 if ($choice != null) {
                     $points = (($choice->right) ? $question->points : 0);
+
+                    if($is_late)
+                        $points = round($points * $late_penalty, 1);
+
                     if($question->character->users()->where([["user_id", $user->id], ["quiz_id", $quiz->id]])->first()->pivot->captain)
                         $points = $points * 2;
                     $answers[$question_id] = ["answer" => $answer["answer"], "points" => $points];
@@ -104,6 +115,9 @@ class QuizzesController extends Controller
         if(Carbon::now()->lessThan($quiz->start_date))
             return response(["message" => "Quiz didn't start yet!"], 408);
 
+        if(Carbon::now()->greaterThan($quiz->end_date) && !$quiz->competition->allow_late)
+            return response(["message" => "Quiz finished"], 408);
+
         if($user->solvedQuizzes()->where("quiz_id", $quiz->id)->exists())
             return response(["message" => "Quiz already solved!"], 408);
 
@@ -115,7 +129,12 @@ class QuizzesController extends Controller
             return $query->where("quiz_id", $quiz->id);
         };
 
-        $characters = $quiz->characters()->whereHas("questions", $userClosure)->with(["questions" => $quizClosure,])->get();
+        $characters = $quiz->characters()->whereHas("questions", $userClosure)->with([
+            "questions" => $quizClosure,
+            "questions.choices" => function($query) {
+                $query->selectRaw("id, name, question_id")->orderBy("id");
+            },
+            ])->get();
 
         $questions = [];
         $questionIds = [];
@@ -143,19 +162,27 @@ class QuizzesController extends Controller
     {
         $user = $request->user("api");
 
-        $userClosure = function($query) use($user) {
-            return $query->where("user_id", $user->id);
-        };
+        $quiz_points = $user->questions()->where('quiz_id', $quiz->id)->sum('question_user.points');
 
-        $quizClosure = function($query) use ($quiz) {
-            return $query->where("quiz_id", $quiz->id);
-        };
+        if(!$quiz->competition->show_answers)
+            return response(["questions" => [], "points" => $quiz_points]);
 
-        $characters = $quiz->characters()->whereHas("questions", $userClosure)
-            ->whereHas("questions.users", $userClosure)->with([
-            "questions.users" => $userClosure,
-            "questions" => $quizClosure,
-        ])->get();
+        $characters = $quiz->characters()
+            ->whereHas("questions", function($query) use ($user) {
+                return $query->where("user_id", $user->id);
+            })
+            ->with([
+                "questions" => function($query) use ($quiz) {
+                    $query->where("quiz_id", $quiz->id);
+                },
+                "questions.choices" => function($query) {
+                    $query->orderBy("id");
+                },
+                "questions.users" => function($query) use ($user) {
+                    $query->where("user_id", $user->id)->select("question_user.answer");
+                },
+            ])
+            ->get();
 
         $questions = [];
         $questionIds = [];
@@ -168,7 +195,7 @@ class QuizzesController extends Controller
             $questionIds = array_merge($questionIds, $questionId);
         }
 
-        return response(["questions" => $questions,]);
+        return response(["questions" => $questions, "points" => $quiz_points]);
     }
 
     public function quizSolved(Quiz $quiz, Request $request)
@@ -185,8 +212,8 @@ class QuizzesController extends Controller
         $now = Carbon::now();
 
         $curCompetition = $user->group->current_competition;
-        $curCompetitionId = $curCompetition->id;
-        if($curCompetition == null) $curCompetitionId = 0;
+            $curCompetitionId = ($curCompetition != null) ? $curCompetition->id : 0;
+
 
         return response(
             [

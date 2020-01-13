@@ -6,12 +6,13 @@
     "type": "project",
     "require": {
         "php": ">=7.0.0",
+        "ext-json": "*",
+        "consoletvs/charts": "6.*",
         "fideloper/proxy": "~3.3",
         "laracasts/flash": "^3.0",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
-        "laravelcollective/html": "^5.5",
-      "ext-json": "*"
+        "laravelcollective/html": "^5.5"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.4",

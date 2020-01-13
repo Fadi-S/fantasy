@@ -52,6 +52,7 @@ class RegisterController extends Controller
                     'api_token' => $user->generateToken(),
                     'refresh_token' => $user->generateRefreshToken(),
                     'points' => $user->points,
+                    'allow_late' => ($user->group->current_competition) ? $user->group->current_competition->allow_late : "0",
                 ]
             )
         );

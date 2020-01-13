@@ -50,7 +50,6 @@
 
             <div class="card-body">
 
-                {{ $users->render() }}
                 <div class="table-responsive">
                     <table class="table dataTable">
                         <thead>
@@ -59,19 +58,49 @@
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Group</th>
+                                <th>Year</th>
                                 <th>Points</th>
+                                <th>Unsolved Questions</th>
+                                <th>Correct / Total Questions</th>
+                                <th>Wrong / Total Questions</th>
+                                <th>Percentage</th>
                                 <th>View</th>
                                 <th>Edit</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($users as $user)
+                                <?php
+                                    $competition = $user->group->current_competition;
+                                    $totalQuestions = $user->totalQuestionsInCompetition($competition);
+                                    $percentage = $user->correctToTotalQuestionsPercentage($competition);
+                                    $wrong_percentage = $user->wrongToTotalQuestionsPercentage($competition);
+                                ?>
                                 <tr>
                                     <td><img src="{{ $user->picture }}" width="70"></td>
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->group->name }}</td>
+                                    <td>{{ $user->year->name }}</td>
                                     <td>{{ $user->points }}</td>
+                                    <td>{{ $user->unsolvedQuestionsInCompetition($competition) }}</td>
+                                    <td>{{ $user->totalCorrectQuestionsInCompetition($competition) . "/" . $totalQuestions }}</td>
+                                    <td>{{ $user->totalWrongQuestionsInCompetition($competition) . "/" . $totalQuestions }}</td>
+                                    <td>
+                                        <div class="progress mx-auto" style="height: 20px">
+                                            <div class="progress-bar progress-bar-striped bg-success" role="progressbar"
+                                                 style="width: {{ $percentage }}%" aria-valuenow="{{ $percentage }}" aria-valuemin="0" aria-valuemax="100">
+                                                {{ $percentage }}%
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="progress mx-auto" style="height: 20px; color:black;">
+                                            <div class="progress-bar progress-bar-striped bg-danger" role="progressbar"
+                                                 style="width: {{ $wrong_percentage }}%" aria-valuenow="{{ $wrong_percentage }}" aria-valuemin="0" aria-valuemax="100">
+                                                {{ $wrong_percentage }}%
+                                            </div>
+                                        </div>
+                                        </td>
                                     <td><a href="{{ url("admin/users/$user->username") }}" class="btn btn-primary">View</a></td>
                                     <td>
                                         <a href="{{ url("admin/users/$user->username/edit") }}" class="btn btn-info">Edit</a>

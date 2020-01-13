@@ -32,7 +32,8 @@ class TextRepository
     public function getActiveQuizzes()
     {
         $now = Carbon::now()->toDateString();
-        $competitions = auth("admin")->user()->competitions->where([["start", "<=", $now], ["end", ">=", $now]])->get();
+        $competitions = auth("admin")->user()->competitions->where("end", ">=", $now)->get();
+
 
         return Quiz::whereIn("competition_id", $competitions->pluck("id")->toArray())->pluck("name", "id");
     }

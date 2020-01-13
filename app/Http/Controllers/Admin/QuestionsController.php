@@ -36,7 +36,10 @@ class QuestionsController extends Controller
         foreach (auth("admin")->user()->groups as $group)
             $competitionIds[] = (!is_null($group->current_competition)) ? $group->current_competition->id : 0;
 
-        $characters = Character::pluck("name", "id")->toArray();
+        $characters = Character::join("categories", "characters.category_id", "=", 'categories.id')
+            ->select('characters.*', \DB::raw("CONCAT(characters.name,' (',categories.name,')') as name_category"))
+            ->pluck("name_category", "id")->toArray();
+
         $quizzes = Quiz::whereIn('competition_id', $competitionIds)->pluck("name", "id")->toArray();
         return view('admin.questions.edit', compact('question', 'characters', 'quizzes'));
     }
@@ -47,7 +50,10 @@ class QuestionsController extends Controller
         foreach (auth("admin")->user()->groups as $group)
             $competitionIds[] = (!is_null($group->current_competition)) ? $group->current_competition->id : 0;
 
-        $characters = Character::pluck("name", "id")->toArray();
+        $characters = Character::join("categories", "characters.category_id", "=", 'categories.id')
+            ->select('characters.*', \DB::raw("CONCAT(characters.name,' (',categories.name,')') as name_category"))
+            ->pluck("name_category", "id")->toArray();
+
         $quizzes = Quiz::whereIn('competition_id', $competitionIds)->pluck("name", "id")->toArray();
         return view('admin.questions.create', compact('characters', 'quizzes'));
     }

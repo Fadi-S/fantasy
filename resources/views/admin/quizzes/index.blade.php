@@ -46,8 +46,8 @@
                                 <tr>
                                     <td></td>
                                     <td>{{ $quiz->name }}</td>
-                                    <td>{{ $quiz->start_date->format("l, d F Y") }}</td>
-                                    <td>{{ $quiz->end_date->format("l, d F Y") }}</td>
+                                    <td>{{ $quiz->start_date->format("l, d F Y h:i a") }}</td>
+                                    <td>{{ $quiz->end_date->format("l, d F Y h:i a") }}</td>
                                     <td>{{ $quiz->max_minutes }}</td>
                                     <td>{{ $quiz->competition->group->name }}</td>
                                     <td>{{ $quiz->competition->name }}</td>
