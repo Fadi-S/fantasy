@@ -4,9 +4,9 @@ Route::prefix('admin')->group(function() {
     Route::get('/', 'Admin\DashboardController@index');
 
     /* Authentication */
-    Route::get('/login', 'Admin\LoginController@showLoginForm');
+    Route::get('/login', 'Admin\LoginController@showLoginForm')->name('login');
     Route::post('/login', 'Admin\LoginController@login');
-    Route::post('/logout', 'Admin\LoginController@logout');
+    Route::post('/logout', 'Admin\LoginController@logout')->name('logout');
 
     Route::post('/users/{user}/savePoints', 'Admin\UsersController@savePoints');
     Route::get('/users/calculate/{competition}', 'Admin\UsersController@calculatePointsForCompetition');
