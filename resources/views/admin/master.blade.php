@@ -73,7 +73,7 @@
 
                     </ul>
                 </li>
-                
+
                 <li><a href="#users" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-users"></i>Users </a>
                     <ul id="users" class="collapse list-unstyled ">
 
@@ -125,16 +125,6 @@
         <div class="content-inner">
             @yield("content")
             @include("admin.flash")
-
-            <footer class="main-footer">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <p>StGeorge Sporting Church &copy; 2020</p>
-                        </div>
-                    </div>
-                </div>
-            </footer>
         </div>
     </div>
 </div>
