@@ -15,7 +15,7 @@ class User extends Authenticatable
     protected $dates = ['api_token_time'];
     protected $hidden = ['password', 'remember_token', "api_token", "refresh_token", "api_token_time"];
 
-    //protected $connection = 'mysql_service';
+    protected $connection = 'mysql_service';
 
     public function getRouteKeyName()
     {
